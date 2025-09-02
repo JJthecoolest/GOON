@@ -6,11 +6,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
     <script>
-        window.addEventListener('beforeunload', function (event) {
-            event.preventDefault();
-            event.returnValue = '';
-            return 'Are you sure you want to leave? Any unsaved changes will be lost.';
-        });
+        //window.addEventListener('beforeunload', function (event) {
+           // event.preventDefault();
+         //   event.returnValue = '';
+         //   return 'Are you sure you want to leave? Any unsaved changes will be lost.';
+      //  });
     </script>
     <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837" crossorigin="anonymous"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
@@ -122,7 +122,7 @@ body {
 }
 
 header {
-    background: var(--gradient-primary);
+    background: #4e5757;
     color: white;
     position: sticky;
     top: 0;
@@ -265,7 +265,7 @@ main {
 }
 
 .zone-item {
-    background: var(--gradient-surface);
+    background: #0B0E1F;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -279,8 +279,8 @@ main {
 
 .zone-item:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--primary);
+    box-shadow: #FF0000;
+    border-color: #FF0000;
 }
 
 .zone-item:hover::before {
@@ -355,7 +355,7 @@ main {
 }
 
 .zone-header {
-    background: var(--gradient-primary);
+    background: #4e5757;
     color: white;
     padding: 1rem 1.5rem;
     display: flex;
@@ -689,9 +689,7 @@ footer {
                 <a id="zoneAuthor" href="#" target="_blank">by Author</a>
             </div>
             <div class="zone-controls">
-                <button onclick="fullscreenZone()">Fullscreen</button>
-                <button onclick="aboutBlank()">Open in New Tab</button>
-                <button onclick="downloadZone()">Download</button>
+                <button onclick="aboutBlank()">Fullscreen in new tab</button>
                 <button onclick="closeZone()">Close</button>
             </div>
         </div>
@@ -778,7 +776,7 @@ async function listZones() {
         const response = await fetch(zonesURL+"?t="+Date.now());
         const json = await response.json();
         zones = json;
-        zones[0].featured = true; // always gonna be the discord
+        zones[0].featured = false; // always gonna be the discord
         await fetchPopularity();
         sortZones();
         const search = new URLSearchParams(window.location.search);
@@ -1004,13 +1002,19 @@ function openZone(file) {
 }
 
 function aboutBlank() {
-    const newWindow = window.open("about:blank", "_blank");
+    const newWindow = window.open();
+
     let zone = zones.find(zone => zone.id + '' === document.getElementById('zoneId').textContent).url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
     fetch(zone+"?t="+Date.now()).then(response => response.text()).then(html => {
         if (newWindow) {
             newWindow.document.open();
-            newWindow.document.write(html);
             newWindow.document.close();
+                        var link = newWindow.document.createElement('link');
+			link.rel = 'icon';
+            newWindow.document.head.appendChild(link);
+			link.href = 		"https://resources.finalsite.net/images/f_auto,q_auto/v1626100427/k12albemarleorg/uj41eppe27bunrvhwnep/PowerSchoolLogos_Vertical-01.png";
+            newWindow.document.write(html);
+            newWindow.document.title = "Home | Schoology";
         }
     })
 }
