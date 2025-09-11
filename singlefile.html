@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <base href="https://cdn.jsdelivr.net/gh/JJthecoolest/goon/">
+    <base href="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
@@ -44,7 +44,7 @@
             signalGooglefcPresent();
         })();
     </script>
-    <script src="https://cdn.jsdelivr.net/gh/JJthecoolest/goon/gnmath.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/gnmath.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temu-N-Taco</title>
@@ -189,6 +189,14 @@
             outline: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow-sm);
+            
+        }
+
+        #searchBar:hover {
+            background: #3D4257;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+            color: #ff7c00;
         }
 
         #searchBar:focus {
@@ -203,7 +211,7 @@
         }
 
         #sortOptions {
-            padding: 0.875rem 1rem;
+            padding: 0.875rem 0.5rem;
             border: 0;
             border-radius: var(--radius);
             background: var(--glass);
@@ -582,11 +590,26 @@
         #settings-button:active {
             transform: translateY(0);
         }
+        
+        .data {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: 0;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+        }
 
         footer {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border);
-            padding: 2rem 1rem;
+            padding: 2rem 5rem;
             margin-top: 3rem;
             text-align: center;
         }
@@ -668,18 +691,22 @@
 
 <body class="dark-mode">
     <header>
-        <div class="header-content">
+
+<div class="header-content">
             <div class="logo">Temu-N-Taco</div>
             <div class="search-container">
                 <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()">
+
                 <select id="sortOptions" onchange="sortZones()">
                     <option value="name">Name</option>
                     <option value="id">ID (Date)</option>
                     <option value="popular">Popular</option>
                 </select>
+                <button href="javascript:saveData()" id="sortOptions">Export Save</button>
+                <button href="#" onclick="document.getElementById('importData').click(); return false;" id="sortOptions">Import Save</button>
             </div>
             <div class="control-buttons">
-                <button id="settings" style="background-color: var(--primary-color); color: #ff7c00; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-size: 16px; cursor: pointer;">Settings</button>
+                <button id="settings" style="background-color: var(--primary-color); color: #ff7c00; border: none; border-radius: 4px; padding: 0.5rem 2rem; font-size: 16px; cursor: pointer;">Settings</button>
             </div>
         </div>
     </header>
@@ -737,8 +764,6 @@
         <div class="footer-links">
             <a href="#" onclick="showContact(); return false;">Contact</a>
             <a href="#" onclick="loadPrivacy(); return false;">Privacy Policy</a>
-            <a href="javascript:saveData()">Export Data</a>
-            <a href="#" onclick="document.getElementById('importData').click(); return false;">Import Data</a>
             <input type="file" id="importData" style="display: none;" onchange="loadData(event)">
         </div>
     </footer>
@@ -751,10 +776,10 @@
         const sortOptions = document.getElementById('sortOptions');
         // https://www.jsdelivr.com/tools/purge
         const zonesurls = [
-            "https://cdn.jsdelivr.net/gh/Gn-math/assets/zones.json",
-            "https://cdn.jsdelivr.net/gh/Gn-math/assets/zones.json",
-            "https://cdn.jsdelivr.net/gh/Gn-math/assets/zones.json",
-            "https://cdn.jsdelivr.net/gh/Gn-math/assets/zones.json"
+            "https://cdn.jsdelivr.net/gh/gn-math/assets@main/zones.json",
+            "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json",
+            "https://cdn.jsdelivr.net/gh/gn-math/assets@master/zones.json",
+            "https://cdn.jsdelivr.net/gh/gn-math/assets/zones.json"
         ];
         let zonesURL = zonesurls[Math.floor(Math.random() * zonesurls.length)];
         const coverURL = "https://cdn.jsdelivr.net/gh/gn-math/covers@main";
@@ -775,7 +800,7 @@
                         shajson = await sharesponse.json();
                         sha = shajson[0]['sha'];
                         if (sha) {
-                            zonesURL = `https://cdn.jsdelivr.net/gh/Gn-math/assets/zones.json`;
+                            zonesURL = `https://cdn.jsdelivr.net/gh/gn-math/assets@${sha}/zones.json`;
                         }
                     } catch (error) {
                         try {
@@ -783,7 +808,7 @@
                             if (secondarysharesponse && secondarysharesponse.status === 200) {
                                 sha = (await secondarysharesponse.text()).trim();
                                 if (sha) {
-                                    zonesURL = `https://cdn.jsdelivr.net/gh/Gn-math/assets/zones.json`;
+                                    zonesURL = `https://cdn.jsdelivr.net/gh/gn-math/assets@${sha}/zones.json`;
                                 }
                             }
                         } catch (error) {}
@@ -870,7 +895,7 @@
                 popularityData[0] = 0;
             }
         }
-
+        
         function sortZones() {
             const sortBy = sortOptions.value;
             if (sortBy === 'name') {
@@ -1343,7 +1368,8 @@
             document.getElementById('popupTitle').textContent = "Contact";
             const popupBody = document.getElementById('popupBody');
             popupBody.innerHTML = `
-    <p>Temu Email: 69270@d49.org Taco Email: 1002543@d49.org </p>`;
+    <p>Temu Email: 69270@d49.org</p> 
+    <p>Taco Email: 1002543@d49.org</p> `;
             popupBody.contentEditable = false;
             document.getElementById('popupOverlay').style.display = "flex";
         }
