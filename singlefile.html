@@ -762,8 +762,8 @@
     </script>
     <footer>
         <div class="footer-links">
-            <a href="#" onclick="showContact(); return false;">Contact</a>
-            <a href="#" onclick="loadPrivacy(); return false;">Privacy Policy</a>
+            <a href="#" onclick="showContact(); return false;"></a>
+            <a href="#" onclick="loadPrivacy(); return false;"></a>
             <input type="file" id="importData" style="display: none;" onchange="loadData(event)">
         </div>
     </footer>
@@ -1365,7 +1365,7 @@
         });
 
         function showContact() {
-            document.getElementById('popupTitle').textContent = "Contact";
+            document.getElementById('popupTitle').textContent = "";
             const popupBody = document.getElementById('popupBody');
             popupBody.innerHTML = `
     <p></p> 
