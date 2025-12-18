@@ -1,4 +1,31 @@
 <!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <form>
+        <label for="pswd">Enter your password: </label>
+        <input type="password" id="pswd">
+        <input type="button" value="Submit" onclick="checkPswd();" />
+    </form>
+
+    <script type="text/javascript">
+        function checkPswd() {
+            // WARNING: The password "admin" is visible to anyone viewing the page source.
+            var correctPassword = "admin"; 
+            var password = document.getElementById("pswd").value;
+
+            if (password === correctPassword) {
+                // Redirect to the protected page
+                window.location.href = "welcome.html"; 
+            } else {
+                alert("Incorrect Password. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
 <html lang="en">
     <head>
     <link rel="icon" type="image/png" href="favicon.png">
@@ -136,5 +163,6 @@
     </script>
 </body>
 </html>
+
 
 
